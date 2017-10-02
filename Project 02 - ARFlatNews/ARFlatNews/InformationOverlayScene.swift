@@ -9,7 +9,7 @@
 import SpriteKit
 
 open class InformationOverlayScene: SKScene {
-    open var labelNode: SKLabelNode?
+    open var labelNode: SKNode?
     open var weatherNode: SKLabelNode?
     open var cursorNode: SKShapeNode?
     
@@ -18,8 +18,6 @@ open class InformationOverlayScene: SKScene {
         scaleMode = .resizeFill
         labelNode = SKLabelNode()
         weatherNode = SKLabelNode()
-        labelNode?.position = CGPoint(x: 100, y: 400)
-        weatherNode?.position = CGPoint(x: 100, y: 400)
         self.addChild(labelNode!)
         self.addChild(weatherNode!)
         cursorNode = SKShapeNode(circleOfRadius: 25.0)
