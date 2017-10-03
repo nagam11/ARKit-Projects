@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  ARFlatNews
+//  ARFlatWeather
 //
 //  Created by Marla Na on 17.09.17.
 //  Copyright © 2017 Marla Na. All rights reserved.

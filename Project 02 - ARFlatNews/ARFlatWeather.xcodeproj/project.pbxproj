@@ -13,11 +13,10 @@
 		7A2414351F6DE38800677FE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A2414331F6DE38800677FE5 /* Main.storyboard */; };
 		7A2414371F6DE38800677FE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A2414361F6DE38800677FE5 /* Assets.xcassets */; };
 		7A24143A1F6DE38800677FE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A2414381F6DE38800677FE5 /* LaunchScreen.storyboard */; };
-		7A2414421F6DF1C500677FE5 /* InformationOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2414411F6DF1C500677FE5 /* InformationOverlayScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7A24142A1F6DE38800677FE5 /* ARFlatNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARFlatNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A24142A1F6DE38800677FE5 /* ARFlatWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARFlatWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A24142D1F6DE38800677FE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A24142F1F6DE38800677FE5 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		7A2414311F6DE38800677FE5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -25,7 +24,6 @@
 		7A2414361F6DE38800677FE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A2414391F6DE38800677FE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7A24143B1F6DE38800677FE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7A2414411F6DF1C500677FE5 /* InformationOverlayScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationOverlayScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +40,7 @@
 		7A2414211F6DE38800677FE5 = {
 			isa = PBXGroup;
 			children = (
-				7A24142C1F6DE38800677FE5 /* ARFlatNews */,
+				7A24142C1F6DE38800677FE5 /* ARFlatWeather */,
 				7A24142B1F6DE38800677FE5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,32 +48,31 @@
 		7A24142B1F6DE38800677FE5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7A24142A1F6DE38800677FE5 /* ARFlatNews.app */,
+				7A24142A1F6DE38800677FE5 /* ARFlatWeather.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7A24142C1F6DE38800677FE5 /* ARFlatNews */ = {
+		7A24142C1F6DE38800677FE5 /* ARFlatWeather */ = {
 			isa = PBXGroup;
 			children = (
 				7A24142D1F6DE38800677FE5 /* AppDelegate.swift */,
 				7A24142F1F6DE38800677FE5 /* art.scnassets */,
 				7A2414311F6DE38800677FE5 /* ViewController.swift */,
-				7A2414411F6DF1C500677FE5 /* InformationOverlayScene.swift */,
 				7A2414331F6DE38800677FE5 /* Main.storyboard */,
 				7A2414361F6DE38800677FE5 /* Assets.xcassets */,
 				7A2414381F6DE38800677FE5 /* LaunchScreen.storyboard */,
 				7A24143B1F6DE38800677FE5 /* Info.plist */,
 			);
-			path = ARFlatNews;
+			path = ARFlatWeather;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7A2414291F6DE38800677FE5 /* ARFlatNews */ = {
+		7A2414291F6DE38800677FE5 /* ARFlatWeather */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7A24143E1F6DE38800677FE5 /* Build configuration list for PBXNativeTarget "ARFlatNews" */;
+			buildConfigurationList = 7A24143E1F6DE38800677FE5 /* Build configuration list for PBXNativeTarget "ARFlatWeather" */;
 			buildPhases = (
 				7A2414261F6DE38800677FE5 /* Sources */,
 				7A2414271F6DE38800677FE5 /* Frameworks */,
@@ -85,9 +82,9 @@
 			);
 			dependencies = (
 			);
-			name = ARFlatNews;
+			name = ARFlatWeather;
 			productName = ARFlatNews;
-			productReference = 7A24142A1F6DE38800677FE5 /* ARFlatNews.app */;
+			productReference = 7A24142A1F6DE38800677FE5 /* ARFlatWeather.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -106,7 +103,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7A2414251F6DE38800677FE5 /* Build configuration list for PBXProject "ARFlatNews" */;
+			buildConfigurationList = 7A2414251F6DE38800677FE5 /* Build configuration list for PBXProject "ARFlatWeather" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -119,7 +116,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7A2414291F6DE38800677FE5 /* ARFlatNews */,
+				7A2414291F6DE38800677FE5 /* ARFlatWeather */,
 			);
 		};
 /* End PBXProject section */
@@ -144,7 +141,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A2414321F6DE38800677FE5 /* ViewController.swift in Sources */,
-				7A2414421F6DF1C500677FE5 /* InformationOverlayScene.swift in Sources */,
 				7A24142E1F6DE38800677FE5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,9 +280,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6WUX73WU7P;
-				INFOPLIST_FILE = ARFlatNews/Info.plist;
+				INFOPLIST_FILE = ARFlatWeather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nagam11.ARFlatNews;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nagam11.ARFlatWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -299,9 +295,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6WUX73WU7P;
-				INFOPLIST_FILE = ARFlatNews/Info.plist;
+				INFOPLIST_FILE = ARFlatWeather/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nagam11.ARFlatNews;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nagam11.ARFlatWeather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -311,7 +307,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7A2414251F6DE38800677FE5 /* Build configuration list for PBXProject "ARFlatNews" */ = {
+		7A2414251F6DE38800677FE5 /* Build configuration list for PBXProject "ARFlatWeather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7A24143C1F6DE38800677FE5 /* Debug */,
@@ -320,7 +316,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7A24143E1F6DE38800677FE5 /* Build configuration list for PBXNativeTarget "ARFlatNews" */ = {
+		7A24143E1F6DE38800677FE5 /* Build configuration list for PBXNativeTarget "ARFlatWeather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7A24143F1F6DE38800677FE5 /* Debug */,

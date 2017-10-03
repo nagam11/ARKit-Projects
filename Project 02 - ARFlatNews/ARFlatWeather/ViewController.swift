@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  ARFlatNews
+//  ARFlatWeather
 //
 //  Created by Marla Na on 17.09.17.
 //  Copyright © 2017 Marla Na. All rights reserved.
@@ -25,7 +25,9 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
         super.viewDidLoad()
         
         //get some Weather data
-        self.getWeather()
+        //TODO: call openWeather
+        // self.getWeather()
+        
         // Set the view's delegate
         sceneView.delegate = self
         
@@ -33,23 +35,60 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
         sceneView.showsStatistics = true
         
         //create a transparent gray layer
-        let box = SCNBox(width: 0.2, height: 0.2, length: 0.005, chamferRadius: 0)
+        let box = SCNBox(width: 0.3, height: 0.3, length: 0.005, chamferRadius: 0)
         let material = SCNMaterial()
-        material.diffuse.contents = UIColor.gray
+        material.diffuse.contents = UIImage(named: "cloudy.png")
         box.materials = [material]
         boxNode = SCNNode(geometry: box)
-        boxNode.opacity = 0.1
+        boxNode.opacity = 0.3
+        //TODO: set via HitTest
         boxNode.position = SCNVector3(0,0,-0.5)
         scene.rootNode.addChildNode(boxNode)
        
+        self.createTextNode(title: "Munich", size: 2.9, x: 5, y: -5)
+        let primarySun = self.createImageNode(width: 7, height: 7, x: 10, y: -6, imageName: "sun.png")
+        let action = SCNAction.repeatForever(SCNAction.rotate(by: .pi, around: SCNVector3(0, 0, 1), duration: 5))
+        primarySun.runAction(action)
+        //TODO: replace dummies
+        self.createTextNode(title: "17°C", size: 2.6, x: 5, y: -2)
+        self.createTextNode(title: "Mon", size: 2.3, x: 13, y: 2)
+        self.createImageNode(width: 3, height: 3, x: 10.5, y: 4, imageName: "cloud.png")
+        self.createTextNode(title: "10°C", size: 1.8, x: 13, y: 9)
+        self.createTextNode(title: "Tue", size: 2.3, x: 5, y: 2)
+        self.createImageNode(width: 3, height: 3, x: 3, y: 4, imageName: "rain.png")
+        self.createTextNode(title: "8°C", size: 1.8, x: 5, y: 9)
+        self.createTextNode(title: "Wed", size: 2.3, x: -1, y: 2)
+        self.createImageNode(width: 3, height: 3, x:-3, y: 4, imageName: "sun.png")
+        self.createTextNode(title: "15°C", size: 1.8, x: -1, y: 9)
+        
         // Set the scene to the view
         sceneView.scene = scene
         sceneView.delegate = self
-        // Put text overlay
-        sceneView.overlaySKScene = InformationOverlayScene(size: sceneView.frame.size)
-        sceneView.overlaySKScene?.isHidden = false
-        self.sceneView.overlaySKScene?.scaleMode = .resizeFill
-        self.sceneView.overlaySKScene?.isUserInteractionEnabled = true
+        
+        // Tap Gesture Recognizer
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
+        sceneView.addGestureRecognizer(tapGesture)
+    }
+    func createTextNode(title: String, size: CGFloat, x: Float, y: Float){
+        let text = SCNText(string: title, extrusionDepth: 0)
+        text.firstMaterial?.diffuse.contents = UIColor.white
+        //text.font = UIFont.systemFont(ofSize: size)
+        text.font = UIFont(name: "Avenir Next", size: size)
+        let textNode = SCNNode(geometry: text)
+        textNode.position.x = boxNode.position.x - x
+        textNode.position.y = boxNode.position.y - y
+        textNode.position.z = boxNode.position.z - 50
+        scene.rootNode.addChildNode(textNode)
+    }
+    func createImageNode(width: CGFloat, height: CGFloat, x: Float, y: Float, imageName: String)-> SCNNode{
+        let imageNode = SCNNode()
+        imageNode.geometry = SCNPlane.init(width: width, height: height)
+        imageNode.geometry?.firstMaterial?.diffuse.contents = imageName
+        imageNode.position.x = boxNode.position.x - x
+        imageNode.position.y = boxNode.position.y - y
+        imageNode.position.z = boxNode.position.z - 50
+        scene.rootNode.addChildNode(imageNode)
+        return imageNode
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,25 +108,6 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
         sceneView.session.pause()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-        
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
-    }
     //Generate some random user names
     func getNames(){
        // let todoEndpoint = "https://uinames.com/api/?gender=female"
@@ -138,7 +158,7 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
     }
     //Get Weather Data for Munich
     func getWeather() {
-        if let url = URL(string: "https://www.weather-forecast.com/locations/Munich/forecasts/latest") {
+        if let url = URL(string: "https://www.weather-forecast.com/locations/Paris/forecasts/latest") {
 
             let request = NSMutableURLRequest(url: url)
             
@@ -185,33 +205,7 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
             print("The weather couldn't be found.")
         }
     }
-    
-    func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval)  {
-        if let overlay = sceneView.overlaySKScene as? InformationOverlayScene {
-                let boxWorldCoordinates = sceneView.scene.rootNode.convertPosition(boxNode.position, from: boxNode.parent)
-                let screenCoordinates = self.sceneView.projectPoint(boxWorldCoordinates)
-                overlay.labelNode?.position.x =  CGFloat(screenCoordinates.x) - 70
-                let boxYY = overlay.size.height - CGFloat(screenCoordinates.y)
-                overlay.labelNode?.position.y =  boxYY + 80
-                var lineAt: CGFloat = 0
-                let text = self.weatherDescription
-                for line in text.components(separatedBy: "\n") {
-                    let labelNode = SKLabelNode(fontNamed: "Arial")
-                    labelNode.fontSize = 14
-                    labelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-                    labelNode.fontColor = SKColor(hue: 1, saturation: 1, brightness: 1, alpha: 1)
-                    labelNode.position =  CGPoint.init(x: 0, y: lineAt)
-                    labelNode.text = line
-                    overlay.labelNode?.addChild(labelNode)
-                    lineAt -= 20.0
-                }
-            
-                let boxY = overlay.size.height - CGFloat(screenCoordinates.y)
-                overlay.cursorNode?.position.x = CGFloat(screenCoordinates.x)
-                overlay.cursorNode?.position.y = boxY
-        }
-    }
-    
+    //insert delimiter
     func insert(separator: String, afterEveryXChars: Int, intoString: String) -> String {
         var output = ""
         intoString.characters.enumerated().forEach { index, c in
@@ -222,12 +216,22 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
         }
         return output
     }
-   
+   //Text-to-speech
     func speakOut(text: String){
         let speech = AVSpeechUtterance(string: text)
         speech.voice = AVSpeechSynthesisVoice(language: "en-US")
         
         let synthesizer = AVSpeechSynthesizer()
         synthesizer.speak(speech)
+    }
+    //On tap, speak and add a new node.
+    @objc func handleTap(gestureRecognize :UITapGestureRecognizer) {
+       let sceneView = gestureRecognize.view as! ARSCNView
+        let touchLocation = gestureRecognize.location(in: sceneView)
+        let hitResults = sceneView.hitTest(touchLocation, options: [:])
+        if !hitResults.isEmpty {
+            self.speakOut(text: "This is the weather for Munich")
+            self.createTextNode(title: "Thank you!", size: 2.3, x: 12, y: 13)
+        }
     }
 }
