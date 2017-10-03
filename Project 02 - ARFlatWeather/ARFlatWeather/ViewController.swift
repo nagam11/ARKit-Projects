@@ -12,7 +12,7 @@ import ARKit
 import SpriteKit
 import AVFoundation
 
-class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelegate, ARSessionDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     var boxNode = SCNNode()
@@ -99,6 +99,10 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
 
         // Run the view's session
         sceneView.session.run(configuration)
+        sceneView.session.delegate = self
+    }
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        print("Frame Updated")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
