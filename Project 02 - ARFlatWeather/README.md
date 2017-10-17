@@ -16,8 +16,8 @@ Portable flat weather display in ARKit inspired by this [article](http://www.aug
 
 ## TODOs
 *  ~~Show live weather from OpenWeather API.~~
-* Fix image assignement (sunny,cloudy, rainy) based on data from API
-* Add display on specific location on click.
+* ~~Fix image assignement (sunny,cloudy, rainy) based on data from API.~~
+* Add weather display on specific location on click.
 * ~~Get location from phone.~~
 
 

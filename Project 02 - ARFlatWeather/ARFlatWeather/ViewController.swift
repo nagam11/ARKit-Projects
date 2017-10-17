@@ -15,10 +15,10 @@ import CoreLocation
 class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDelegate, ARSessionDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
-    var tempToday = ""
-    var tempTomorrow = ""
-    var tempAfterTomorrow = ""
-    var tempAfterAfterTomorrow = ""
+    var tempToday = ("","")
+    var tempTomorrow = ("","")
+    var tempAfterTomorrow = ("","")
+    var tempAfterAfterTomorrow = ("","")
     var location = ""
     var boxNode = SCNNode()
     var scene =  SCNScene()
@@ -116,7 +116,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
     /* Get weather data from Open Weather API. Insert own API-TOKEN.
      */
     func getWeather(latitude: String, longitude: String){
-        let openWeatherEndpoint = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&units=metric&appid=API-TOKEN"
+        let openWeatherEndpoint = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&units=metric&appid=2e9fb12c2e135df56d70cd6feff9c2e9"
         
         guard let url = URL(string: openWeatherEndpoint) else {
             print("Error: cannot create URL")
@@ -152,12 +152,32 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
                         if var temp = main["temp"] as? Double{
                             temp.round()
                             switch i {
-                            case 0: self.tempToday = String(temp)
-                            case 1: self.tempTomorrow = String(temp)
-                            case 2: self.tempAfterTomorrow = String(temp)
-                            default: self.tempAfterAfterTomorrow = String(temp)
+                            case 0: self.tempToday.0 = String(temp)
+                            case 1: self.tempTomorrow.0 = String(temp)
+                            case 2: self.tempAfterTomorrow.0 = String(temp)
+                            default: self.tempAfterAfterTomorrow.0 = String(temp)
                             }
                             print(temp)
+                        }
+                    }
+                    if let weather = weatherList[i]["weather"] as? [Any] {
+                        if let object = weather.first as? [String: Any]{
+                            if let main = object["main"] as? String {
+                                var weatherDescription = main.lowercased()
+                                if weatherDescription.contains("clear"){
+                                    weatherDescription = "sun"
+                                } else if weatherDescription.contains("cloud"){
+                                    weatherDescription = "cloud"
+                                } else {
+                                    weatherDescription = "rain"
+                                }
+                                switch i {
+                                case 0: self.tempToday.1 = String(weatherDescription)
+                                case 1: self.tempTomorrow.1 = String(weatherDescription)
+                                case 2: self.tempAfterTomorrow.1 = String(weatherDescription)
+                                default: self.tempAfterAfterTomorrow.1 = String(weatherDescription)
+                                }
+                            }
                         }
                     }
                 }
@@ -190,7 +210,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
         let touchLocation = gestureRecognize.location(in: sceneView)
         let hitResults = sceneView.hitTest(touchLocation, options: [:])
         if !hitResults.isEmpty {
-            self.speakOut(text: "This is the weather for \(self.location). Today is \(self.tempToday)°C")
+            self.speakOut(text: "This is the weather for \(self.location). Today is \(self.tempToday.0)°C")
             self.createTextNode(title: "Thank you!", size: 2.3, x: 12, y: 13)
         }
     }
@@ -199,21 +219,22 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
     func setTemp(){
         //Create main node for today.
         self.createTextNode(title: self.location, size: 2.9, x: 5, y: -5)
-        let primarySun = self.createImageNode(width: 7, height: 7, x: 10, y: -6, imageName: "sun.png")
+        let primaryImage = self.createImageNode(width: 7, height: 7, x: 10, y: -6, imageName: "\(self.tempToday.1).png")
         let action = SCNAction.repeatForever(SCNAction.rotate(by: .pi, around: SCNVector3(0, 0, 1), duration: 5))
-        primarySun.runAction(action)
-    
+        if self.tempToday.1.contains("sun"){
+            primaryImage.runAction(action)
+        }
         let weekdays = self.getWeekday()
-        self.createTextNode(title: "\(self.tempToday)°C", size: 2.6, x: 5, y: -2)
+        self.createTextNode(title: "\(self.tempToday.0)°C", size: 2.6, x: 5, y: -2)
         self.createTextNode(title: weekdays.0, size: 2.3, x: 13, y: 2)
-        self.createImageNode(width: 3, height: 3, x: 10.5, y: 4, imageName: "cloud.png")
-        self.createTextNode(title: "\(self.tempTomorrow)°C", size: 1.8, x: 13, y: 9)
+        self.createImageNode(width: 3, height: 3, x: 10.5, y: 4, imageName: "\(self.tempTomorrow.1).png")
+        self.createTextNode(title: "\(self.tempTomorrow.0)°C", size: 1.8, x: 13, y: 9)
         self.createTextNode(title: weekdays.1, size: 2.3, x: 6, y: 2)
-        self.createImageNode(width: 3, height: 3, x: 3, y: 4, imageName: "rain.png")
-        self.createTextNode(title: "\(self.tempAfterTomorrow)°C", size: 1.8, x: 6, y: 9)
+        self.createImageNode(width: 3, height: 3, x: 3, y: 4, imageName: "\(self.tempAfterTomorrow.1).png")
+        self.createTextNode(title: "\(self.tempAfterTomorrow.0)°C", size: 1.8, x: 6, y: 9)
         self.createTextNode(title: weekdays.2, size: 2.3, x: -1, y: 2)
-        self.createImageNode(width: 3, height: 3, x:-3, y: 4, imageName: "sun.png")
-        self.createTextNode(title: "\(self.tempAfterAfterTomorrow)°C", size: 1.8, x: -1, y: 9)
+        self.createImageNode(width: 3, height: 3, x:-3, y: 4, imageName: "\(self.tempAfterAfterTomorrow.1).png")
+        self.createTextNode(title: "\(self.tempAfterAfterTomorrow.0)°C", size: 1.8, x: -1, y: 9)
     }
     /* This method returns the current weekday.
      */
