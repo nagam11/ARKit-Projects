@@ -1,5 +1,5 @@
 # ARFlatWeather
-Portable flat weather display in ARKit inspired by this [article](http://www.augment.com/blog/4-ways-augmented-reality-will-change-everyday-life/).
+Portable flat weather display in ARKit inspired by this [article](http://www.augment.com/blog/4-ways-augmented-reality-will-change-everyday-life/). I wrote a [few words](https://nagam11.github.io/nagam11.github.io/Live-Weather-Display/) about this project in my blog.
 
 <img src="weather.gif" width="200">
 
