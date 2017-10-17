@@ -116,7 +116,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
     /* Get weather data from Open Weather API. Insert own API-TOKEN.
      */
     func getWeather(latitude: String, longitude: String){
-        let openWeatherEndpoint = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&units=metric&appid=2e9fb12c2e135df56d70cd6feff9c2e9"
+        let openWeatherEndpoint = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&units=metric&appid=API-TOKEN"
         
         guard let url = URL(string: openWeatherEndpoint) else {
             print("Error: cannot create URL")
