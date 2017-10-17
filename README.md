@@ -1,9 +1,7 @@
 # ARKit-Projects
 
-[<img src="http://www.gjermundbjaanes.com/img/posts/ar.jpg">](ARKIT)
-
 ## Hello
-This is an on-going collection of self-taught ARKit projects, inspired by [this](https://github.com/allenwong/30DaysofSwift) and [this](https://medium.com/@samvlu/100-days-of-swift-736d45a19b63) story. 
+This is an on-going collection of self-taught ARKit projects.
 
 ## List
 Project 01 - [SolarSystem](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2001%20-%20ARSolarSystem)
