@@ -10,22 +10,38 @@ import UIKit
 import SceneKit
 import ARKit
 import AVFoundation
+import CoreLocation
 
-class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelegate, ARSessionDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDelegate, ARSessionDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
     var tempToday = ""
     var tempTomorrow = ""
     var tempAfterTomorrow = ""
     var tempAfterAfterTomorrow = ""
+    var location = ""
     var boxNode = SCNNode()
     var scene =  SCNScene()
+    var didFindLocation = false
+    
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        self.locationManager.requestAlwaysAuthorization()
         
-        //get some Weather data
-        self.getWeather()
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        locationManager.requestWhenInUseAuthorization();
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        else{
+            print("Location service disabled");
+        }
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -43,12 +59,6 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
         //TODO: set via HitTest
         boxNode.position = SCNVector3(0,0,-0.5)
         scene.rootNode.addChildNode(boxNode)
-        
-        //Create main node for today.
-        self.createTextNode(title: "Munich", size: 2.9, x: 5, y: -5)
-        let primarySun = self.createImageNode(width: 7, height: 7, x: 10, y: -6, imageName: "sun.png")
-        let action = SCNAction.repeatForever(SCNAction.rotate(by: .pi, around: SCNVector3(0, 0, 1), duration: 5))
-        primarySun.runAction(action)
         
         // Set the scene to the view
         sceneView.scene = scene
@@ -94,7 +104,6 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
         sceneView.session.delegate = self
     }
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        print("Frame Updated")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -106,8 +115,8 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
     
     /* Get weather data from Open Weather API. Insert own API-TOKEN.
      */
-    func getWeather(){
-        let openWeatherEndpoint = "https://api.openweathermap.org/data/2.5/forecast?q=M%C3%BCnchen,DE&units=metric&appid=API-TOKEN"
+    func getWeather(latitude: String, longitude: String){
+        let openWeatherEndpoint = "https://api.openweathermap.org/data/2.5/forecast?lat=\(latitude)&lon=\(longitude)&units=metric&appid=API-TOKEN"
         
         guard let url = URL(string: openWeatherEndpoint) else {
             print("Error: cannot create URL")
@@ -152,6 +161,14 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
                         }
                     }
                 }
+                //get current location
+                guard let city = data["city"] as? [String: Any] else {
+                    print("Could not get city from JSON")
+                    return
+                }
+                if let cityName = city["name"] as? String {
+                    self.location = cityName
+                }
                 self.setTemp()
             } catch  {
                 print("error trying to convert data to JSON")
@@ -173,23 +190,68 @@ class ViewController: UIViewController, ARSCNViewDelegate,SCNSceneRendererDelega
         let touchLocation = gestureRecognize.location(in: sceneView)
         let hitResults = sceneView.hitTest(touchLocation, options: [:])
         if !hitResults.isEmpty {
-            self.speakOut(text: "This is the weather for Munich. Today is \(self.tempToday)°C")
+            self.speakOut(text: "This is the weather for \(self.location). Today is \(self.tempToday)°C")
             self.createTextNode(title: "Thank you!", size: 2.3, x: 12, y: 13)
         }
     }
     /* This method sets the weather for today and the next three days.
      */
     func setTemp(){
-        //TODO: replace dummies
+        //Create main node for today.
+        self.createTextNode(title: self.location, size: 2.9, x: 5, y: -5)
+        let primarySun = self.createImageNode(width: 7, height: 7, x: 10, y: -6, imageName: "sun.png")
+        let action = SCNAction.repeatForever(SCNAction.rotate(by: .pi, around: SCNVector3(0, 0, 1), duration: 5))
+        primarySun.runAction(action)
+    
+        let weekdays = self.getWeekday()
         self.createTextNode(title: "\(self.tempToday)°C", size: 2.6, x: 5, y: -2)
-        self.createTextNode(title: "Mon", size: 2.3, x: 13, y: 2)
+        self.createTextNode(title: weekdays.0, size: 2.3, x: 13, y: 2)
         self.createImageNode(width: 3, height: 3, x: 10.5, y: 4, imageName: "cloud.png")
         self.createTextNode(title: "\(self.tempTomorrow)°C", size: 1.8, x: 13, y: 9)
-        self.createTextNode(title: "Tue", size: 2.3, x: 6, y: 2)
+        self.createTextNode(title: weekdays.1, size: 2.3, x: 6, y: 2)
         self.createImageNode(width: 3, height: 3, x: 3, y: 4, imageName: "rain.png")
         self.createTextNode(title: "\(self.tempAfterTomorrow)°C", size: 1.8, x: 6, y: 9)
-        self.createTextNode(title: "Wed", size: 2.3, x: -1, y: 2)
+        self.createTextNode(title: weekdays.2, size: 2.3, x: -1, y: 2)
         self.createImageNode(width: 3, height: 3, x:-3, y: 4, imageName: "sun.png")
         self.createTextNode(title: "\(self.tempAfterAfterTomorrow)°C", size: 1.8, x: -1, y: 9)
+    }
+    /* This method returns the current weekday.
+     */
+    func getWeekday() -> (String,String,String){
+        let tomorrow = Date().tomorrow
+        let afterTomorrow = Date().afterTomorrow
+        let afterAfterTomorrow = Date().afterAfterTomorrow
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        dateFormatter.dateFormat = "EEEE"
+        
+        let tomorrowString = dateFormatter.string(from: tomorrow).prefix(3)
+        let afterTomorrowString = dateFormatter.string(from: afterTomorrow).prefix(3)
+        let afterAfterTomorrowString = dateFormatter.string(from: afterAfterTomorrow).prefix(3)
+        print("Weekdays are \(tomorrowString.prefix(3)) \(afterTomorrowString.prefix(3)) \(afterAfterTomorrowString.prefix(3))")
+        return (String(tomorrowString), String(afterTomorrowString), String(afterAfterTomorrowString))
+    }
+}
+extension ViewController: CLLocationManagerDelegate{
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location:CLLocationCoordinate2D = manager.location?.coordinate {
+            print("Your location is \(location.latitude) \(location.longitude)")
+            manager.stopUpdatingLocation()
+            manager.delegate = nil
+            //get some Weather data
+            self.getWeather(latitude: String(location.latitude), longitude: String(location.longitude))
+        }
+    }
+}
+extension Date {
+    var tomorrow: Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)!
+    }
+    var afterTomorrow: Date {
+        return Calendar.current.date(byAdding: .day, value: 2, to: self)!
+    }
+    var afterAfterTomorrow: Date {
+        return Calendar.current.date(byAdding: .day, value: 3, to: self)!
     }
 }

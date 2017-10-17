@@ -5,7 +5,7 @@ Portable flat weather display in ARKit inspired by this [article](http://www.aug
 
 ## Features
 * ARKit with SceneKit for image and text nodes.
-* Live 5 day forecast data from OpenWeather API.
+* Live 3 day forecast data from OpenWeather API based on your location.
 * AVSpeechSynthesizer on tap.
 
 
@@ -18,6 +18,6 @@ Portable flat weather display in ARKit inspired by this [article](http://www.aug
 *  ~~Show live weather from OpenWeather API.~~
 * Fix image assignement (sunny,cloudy, rainy) based on data from API
 * Add display on specific location on click.
-* Get location from phone.
+* ~~Get location from phone.~~
 
 
