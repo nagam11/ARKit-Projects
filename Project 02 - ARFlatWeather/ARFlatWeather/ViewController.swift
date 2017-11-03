@@ -23,6 +23,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
     var boxNode = SCNNode()
     var scene =  SCNScene()
     var didFindLocation = false
+    var didAddDashboard = false
     
     let locationManager = CLLocationManager()
     
@@ -48,17 +49,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
-        
-        //create a transparent gray layer
-        let box = SCNBox(width: 0.3, height: 0.3, length: 0.005, chamferRadius: 0)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIImage(named: "cloudy.png")
-        box.materials = [material]
-        boxNode = SCNNode(geometry: box)
-        boxNode.opacity = 0.3
-        //TODO: set via HitTest
-        boxNode.position = SCNVector3(0,0,-0.5)
-        scene.rootNode.addChildNode(boxNode)
         
         // Set the scene to the view
         sceneView.scene = scene
@@ -189,7 +179,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
                 if let cityName = city["name"] as? String {
                     self.location = cityName
                 }
-                self.setTemp()
+                //self.setTemp()
             } catch  {
                 print("error trying to convert data to JSON")
                 return
@@ -206,12 +196,30 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNSceneRendererDeleg
     }
     //On tap, speak and add a new node.
     @objc func handleTap(gestureRecognize :UITapGestureRecognizer) {
+        if(!self.didAddDashboard){
+            //create a transparent gray layer
+            let box = SCNBox(width: 0.3, height: 0.3, length: 0.005, chamferRadius: 0)
+            let material = SCNMaterial()
+            material.diffuse.contents = UIImage(named: "cloudy.png")
+            box.materials = [material]
+            boxNode = SCNNode(geometry: box)
+            boxNode.opacity = 0.3
+            let tapPoint = gestureRecognize.location(in: self.view)
+            guard let pointOfView = sceneView.pointOfView else { return }
+            boxNode.position = SCNVector3(0,0,-0.5)
+            //boxNode.position = currentPosition
+            
+            scene.rootNode.addChildNode(boxNode)
+            self.setTemp()
+            self.didAddDashboard = true
+        }else {
         let sceneView = gestureRecognize.view as! ARSCNView
         let touchLocation = gestureRecognize.location(in: sceneView)
         let hitResults = sceneView.hitTest(touchLocation, options: [:])
         if !hitResults.isEmpty {
             self.speakOut(text: "This is the weather for \(self.location). Today is \(self.tempToday.0)°C")
             self.createTextNode(title: "Thank you!", size: 2.3, x: 12, y: 13)
+            }
         }
     }
     /* This method sets the weather for today and the next three days.
