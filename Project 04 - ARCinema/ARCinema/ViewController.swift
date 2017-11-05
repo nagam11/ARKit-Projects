@@ -14,6 +14,7 @@ class ViewController: UIViewController, ARSKViewDelegate {
     
     @IBOutlet var sceneView: ARSKView!
     private var cinemaLoaded = false
+    var cinemaFrame: ARFrame?
     //Reference to currently playing video node
     var videoNode = SKVideoNode()
     var nextVideo = "0.mov"
@@ -74,9 +75,9 @@ class ViewController: UIViewController, ARSKViewDelegate {
             next.name = "next"
             
             //position is relative to parent node/video node
-            play.position = CGPoint(x: 0, y: -90)
-            pause.position = CGPoint(x: -30, y: -90)
-            next.position = CGPoint(x: 30, y: -90)
+            play.position = CGPoint(x: 0, y: -70)
+            pause.position = CGPoint(x: -30, y: -70)
+            next.position = CGPoint(x: 30, y: -70)
             videoNode.addChild(play)
             videoNode.addChild(pause)
             videoNode.addChild(next)
@@ -106,31 +107,48 @@ class ViewController: UIViewController, ARSKViewDelegate {
             if let name = node.name {
                 if (name == "pause") {
                     videoNode.pause()
+                    self.scaleButton(node: node, completion: {(_ param: String) -> Void in})
                 }
                 if (name == "play") {
                     videoNode.play()
+                    self.scaleButton(node: node, completion: {(_ param: String) -> Void in})
                 }
                 if (name == "next"){
-                    self.videoNode.pause()
-                    self.videoNode.removeFromParent()
-                    self.createCinemaAnchor()
-                    self.cinemaLoaded = false
-                    self.counter += 1
-                    //simple iteration through 5 videos. We should be using an array or list actually.
-                    self.nextVideo = "\(self.counter%5)"+".mov"
+                    self.scaleButton(node: node){ (param: String) in
+                        print("\(param)")
+                        self.videoNode.pause()
+                        self.videoNode.removeFromParent()
+                        self.createCinemaAnchor()
+                        self.cinemaLoaded = false
+                        self.counter += 1
+                        //simple iteration through 5 videos. We should be using an array or list actually.
+                        self.nextVideo = "\(self.counter%5)"+".mov"
+                    }
                 }
             }
         } else {
             return
         }
     }
+
+    func scaleButton(node: SKNode, completion: @escaping (_ param: String) -> Void){
+        let scaleOut = SKAction.scale(by: 0.8, duration: 0.2)
+        let scaleIn = SKAction.scale(by: 1.25, duration: 0.2)
+        let sequence = SKAction.sequence([scaleOut,scaleIn])
+        node.run(sequence){
+            completion("animation finished")
+        }
+    }
     func createCinemaAnchor(){
         // Create anchor using the camera's current position
         if let currentFrame = sceneView.session.currentFrame {
-            // Create a transform with a translation of 0.2 meters in front of the camera
+            //always use the first current frame
+            if(!cinemaLoaded){
+                self.cinemaFrame = currentFrame
+            }
             var translation = matrix_identity_float4x4
             translation.columns.3.z = -0.7
-            let transform = simd_mul(currentFrame.camera.transform, translation)
+            let transform = simd_mul((cinemaFrame?.camera.transform)!, translation)
             
             // Add a new anchor to the session
             let anchor = ARAnchor(transform: transform)
