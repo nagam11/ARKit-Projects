@@ -1,5 +1,5 @@
-# AR Cinema
-A personal video player in AR.
+# ARCinema
+A video player with playback buttons for ARKit. [Video](https://streamable.com/8chh6)
 
 <img src="ARCinema.gif" width="200">
 
@@ -7,5 +7,6 @@ A personal video player in AR.
 * ARKit with SpriteKit with image, text and video nodes.
 
 ## TODOs
-* Use SceneKit with overlays for optimal rendering.
+* ~~Fix 'Next' playback button.~~
+* Use SceneKit overlays for optimal rendering (optional).
 * Detect vertical planes
