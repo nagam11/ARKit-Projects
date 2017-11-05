@@ -9,25 +9,31 @@
 /* Begin PBXBuildFile section */
 		7A2FF8FA1FA299B2003057EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2FF8F91FA299B2003057EF /* AppDelegate.swift */; };
 		7A2FF8FC1FA299B2003057EF /* Scene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7A2FF8FB1FA299B2003057EF /* Scene.sks */; };
-		7A2FF8FE1FA299B2003057EF /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2FF8FD1FA299B2003057EF /* Scene.swift */; };
 		7A2FF9001FA299B2003057EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2FF8FF1FA299B2003057EF /* ViewController.swift */; };
 		7A2FF9031FA299B2003057EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A2FF9011FA299B2003057EF /* Main.storyboard */; };
 		7A2FF9051FA299B2003057EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A2FF9041FA299B2003057EF /* Assets.xcassets */; };
 		7A2FF9081FA299B2003057EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A2FF9061FA299B2003057EF /* LaunchScreen.storyboard */; };
-		7A5100AB1FA6D0D8000AFE72 /* 1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 7A5100AA1FA6D0D8000AFE72 /* 1.mov */; };
+		7A50D3471FAF8D5E00ED1D24 /* 0.mov in Resources */ = {isa = PBXBuildFile; fileRef = 7A50D3421FAF8D5800ED1D24 /* 0.mov */; };
+		7A50D3481FAF8D5E00ED1D24 /* 1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 7A50D3431FAF8D5900ED1D24 /* 1.mov */; };
+		7A50D3491FAF8D5E00ED1D24 /* 3.mov in Resources */ = {isa = PBXBuildFile; fileRef = 7A50D3441FAF8D5B00ED1D24 /* 3.mov */; };
+		7A50D34A1FAF8D5E00ED1D24 /* 4.mov in Resources */ = {isa = PBXBuildFile; fileRef = 7A50D3451FAF8D5D00ED1D24 /* 4.mov */; };
+		7A50D34B1FAF8D5E00ED1D24 /* 2.mov in Resources */ = {isa = PBXBuildFile; fileRef = 7A50D3461FAF8D5E00ED1D24 /* 2.mov */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7A2FF8F61FA299B2003057EF /* ARCinema.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARCinema.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A2FF8F91FA299B2003057EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A2FF8FB1FA299B2003057EF /* Scene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Scene.sks; sourceTree = "<group>"; };
-		7A2FF8FD1FA299B2003057EF /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		7A2FF8FF1FA299B2003057EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7A2FF9021FA299B2003057EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A2FF9041FA299B2003057EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A2FF9071FA299B2003057EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7A2FF9091FA299B2003057EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7A5100AA1FA6D0D8000AFE72 /* 1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 1.mov; sourceTree = "<group>"; };
+		7A50D3421FAF8D5800ED1D24 /* 0.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 0.mov; sourceTree = "<group>"; };
+		7A50D3431FAF8D5900ED1D24 /* 1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 1.mov; sourceTree = "<group>"; };
+		7A50D3441FAF8D5B00ED1D24 /* 3.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 3.mov; sourceTree = "<group>"; };
+		7A50D3451FAF8D5D00ED1D24 /* 4.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 4.mov; sourceTree = "<group>"; };
+		7A50D3461FAF8D5E00ED1D24 /* 2.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 2.mov; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,10 +66,13 @@
 		7A2FF8F81FA299B2003057EF /* ARCinema */ = {
 			isa = PBXGroup;
 			children = (
-				7A5100AA1FA6D0D8000AFE72 /* 1.mov */,
+				7A50D3421FAF8D5800ED1D24 /* 0.mov */,
+				7A50D3431FAF8D5900ED1D24 /* 1.mov */,
+				7A50D3461FAF8D5E00ED1D24 /* 2.mov */,
+				7A50D3441FAF8D5B00ED1D24 /* 3.mov */,
+				7A50D3451FAF8D5D00ED1D24 /* 4.mov */,
 				7A2FF8F91FA299B2003057EF /* AppDelegate.swift */,
 				7A2FF8FB1FA299B2003057EF /* Scene.sks */,
-				7A2FF8FD1FA299B2003057EF /* Scene.swift */,
 				7A2FF8FF1FA299B2003057EF /* ViewController.swift */,
 				7A2FF9011FA299B2003057EF /* Main.storyboard */,
 				7A2FF9041FA299B2003057EF /* Assets.xcassets */,
@@ -132,11 +141,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A50D34B1FAF8D5E00ED1D24 /* 2.mov in Resources */,
+				7A50D3481FAF8D5E00ED1D24 /* 1.mov in Resources */,
+				7A50D34A1FAF8D5E00ED1D24 /* 4.mov in Resources */,
 				7A2FF8FC1FA299B2003057EF /* Scene.sks in Resources */,
+				7A50D3471FAF8D5E00ED1D24 /* 0.mov in Resources */,
+				7A50D3491FAF8D5E00ED1D24 /* 3.mov in Resources */,
 				7A2FF9081FA299B2003057EF /* LaunchScreen.storyboard in Resources */,
 				7A2FF9051FA299B2003057EF /* Assets.xcassets in Resources */,
 				7A2FF9031FA299B2003057EF /* Main.storyboard in Resources */,
-				7A5100AB1FA6D0D8000AFE72 /* 1.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,7 +161,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A2FF9001FA299B2003057EF /* ViewController.swift in Sources */,
-				7A2FF8FE1FA299B2003057EF /* Scene.swift in Sources */,
 				7A2FF8FA1FA299B2003057EF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

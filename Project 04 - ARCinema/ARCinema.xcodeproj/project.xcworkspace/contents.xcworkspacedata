@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:ARCinema.xcodeproj">
+      location = "group:/Users/marlanarazani/Desktop/Personal/ARKit-Projects/Project 04 - ARCinema/ARCinema/1.mov">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/marlanarazani/Desktop/Personal/ARKit-Projects/Project 04 - ARCinema/ARCinema/2.mp4">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

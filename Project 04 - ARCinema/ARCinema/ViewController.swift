@@ -14,6 +14,10 @@ class ViewController: UIViewController, ARSKViewDelegate {
     
     @IBOutlet var sceneView: ARSKView!
     private var cinemaLoaded = false
+    //Reference to currently playing video node
+    var videoNode = SKVideoNode()
+    var nextVideo = "0.mov"
+    var counter = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +40,7 @@ class ViewController: UIViewController, ARSKViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-
+        
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -48,46 +52,89 @@ class ViewController: UIViewController, ARSKViewDelegate {
         sceneView.session.pause()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
+    func addVideoNode(toBePlayed: String) {
+        let videoNode = SKVideoNode(fileNamed: toBePlayed)
+        videoNode.size = CGSize(width: 200, height: 100)
+        videoNode.alpha = 0.8
+        videoNode.play()
+        self.videoNode = videoNode
     }
     
     // MARK: - ARSKViewDelegate
-    
     func view(_ view: ARSKView, nodeFor anchor: ARAnchor) -> SKNode? {
-        if !self.cinemaLoaded {
-            let videoNode = SKVideoNode(fileNamed: "1.mov")
-            videoNode.size = CGSize(width: 100, height: 150)
+        if (!self.cinemaLoaded) {
+            self.addVideoNode(toBePlayed: self.nextVideo)
+            //create playback options
             let play = SKSpriteNode(imageNamed: "play.png")
             let pause = SKSpriteNode(imageNamed: "pause.png")
             let next = SKSpriteNode(imageNamed: "next.png")
-            videoNode.alpha = 0.8
+            //set identifiers for the nodes
+            pause.name = "pause"
+            play.name = "play"
+            next.name = "next"
+            
+            //position is relative to parent node/video node
             play.position = CGPoint(x: 0, y: -90)
             pause.position = CGPoint(x: -30, y: -90)
             next.position = CGPoint(x: 30, y: -90)
             videoNode.addChild(play)
             videoNode.addChild(pause)
             videoNode.addChild(next)
-            videoNode.play()
+            
             self.cinemaLoaded = true
             return videoNode
         }
-        return SKNode()
+        return nil
     }
     
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if(!self.cinemaLoaded){
+            self.createCinemaAnchor()
+        }
+        // Get first touch
+        guard let touch = touches.first else {
+            return
+        }
+        // Get location in the scene
+        let location = touch.location(in: self.sceneView.scene!)
         
+        // Get the nodes at the clicked location
+        let clicked = self.sceneView.scene!.nodes(at: location)
+        
+        // Get the first clicked node
+        if let node = clicked.first {
+            if let name = node.name {
+                if (name == "pause") {
+                    videoNode.pause()
+                }
+                if (name == "play") {
+                    videoNode.play()
+                }
+                if (name == "next"){
+                    self.videoNode.pause()
+                    self.videoNode.removeFromParent()
+                    self.createCinemaAnchor()
+                    self.cinemaLoaded = false
+                    self.counter += 1
+                    //simple iteration through 5 videos. We should be using an array or list actually.
+                    self.nextVideo = "\(self.counter%5)"+".mov"
+                }
+            }
+        } else {
+            return
+        }
     }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
+    func createCinemaAnchor(){
+        // Create anchor using the camera's current position
+        if let currentFrame = sceneView.session.currentFrame {
+            // Create a transform with a translation of 0.2 meters in front of the camera
+            var translation = matrix_identity_float4x4
+            translation.columns.3.z = -0.7
+            let transform = simd_mul(currentFrame.camera.transform, translation)
+            
+            // Add a new anchor to the session
+            let anchor = ARAnchor(transform: transform)
+            sceneView.session.add(anchor: anchor)
+        }
     }
 }
