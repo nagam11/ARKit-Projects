@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="ARKit_Headset_View" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nda-fX-cEf"/>
+                        <viewControllerLayoutGuide type="bottom" id="ziU-lt-Y7R"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3vJ-Vw-bWk">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="450"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ToM-A9-1Hk">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="450"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gFe-i0-sb4">
+                                        <rect key="frame" x="0.0" y="0.0" width="333.5" height="450"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iRl-63-A4N">
+                                        <rect key="frame" x="333.5" y="0.0" width="333.5" height="450"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="iRl-63-A4N" firstAttribute="width" secondItem="gFe-i0-sb4" secondAttribute="width" id="lEd-W5-O2d"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h5b-Xi-IW1">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="450"/>
+                                <subviews>
+                                    <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UbT-LZ-qOT">
+                                        <rect key="frame" x="0.0" y="0.0" width="333.5" height="450"/>
+                                    </arscnView>
+                                    <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zb0-hr-6rz">
+                                        <rect key="frame" x="333.5" y="0.0" width="333.5" height="450"/>
+                                    </arscnView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zb0-hr-6rz" firstAttribute="width" secondItem="UbT-LZ-qOT" secondAttribute="width" id="OHZ-h1-Xoj"/>
+                                </constraints>
+                            </stackView>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sp6-YF-JnO">
+                                <rect key="frame" x="213.5" y="0.0" width="240" height="135"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="135" id="AWJ-Ip-MmI"/>
+                                    <constraint firstAttribute="width" constant="240" id="Ty7-ys-SyI"/>
+                                </constraints>
+                            </arscnView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ToM-A9-1Hk" firstAttribute="leading" secondItem="3vJ-Vw-bWk" secondAttribute="leading" id="6ZT-SC-rYn"/>
+                            <constraint firstItem="h5b-Xi-IW1" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="9CQ-5Y-kR2"/>
+                            <constraint firstItem="ziU-lt-Y7R" firstAttribute="top" secondItem="h5b-Xi-IW1" secondAttribute="bottom" id="CoV-Cz-aAo"/>
+                            <constraint firstAttribute="trailing" secondItem="h5b-Xi-IW1" secondAttribute="trailing" id="PzO-CF-BzH"/>
+                            <constraint firstItem="h5b-Xi-IW1" firstAttribute="leading" secondItem="3vJ-Vw-bWk" secondAttribute="leading" id="RI6-gU-evS"/>
+                            <constraint firstItem="ToM-A9-1Hk" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="Rcy-Qb-iim"/>
+                            <constraint firstItem="sp6-YF-JnO" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="e8L-4D-QfK"/>
+                            <constraint firstItem="sp6-YF-JnO" firstAttribute="centerX" secondItem="3vJ-Vw-bWk" secondAttribute="centerX" id="inl-R6-nPW"/>
+                            <constraint firstAttribute="trailing" secondItem="ToM-A9-1Hk" secondAttribute="trailing" id="o3s-kP-qWb"/>
+                            <constraint firstItem="ziU-lt-Y7R" firstAttribute="top" secondItem="ToM-A9-1Hk" secondAttribute="bottom" id="w9a-DL-Fso"/>
+                        </constraints>
+                    </view>
+                    <size key="freeformSize" width="667" height="450"/>
+                    <connections>
+                        <outlet property="imageViewLeft" destination="gFe-i0-sb4" id="8Ip-As-Hrj"/>
+                        <outlet property="imageViewRight" destination="iRl-63-A4N" id="Q2j-mJ-Jp4"/>
+                        <outlet property="sceneView" destination="sp6-YF-JnO" id="Bi7-n9-pcS"/>
+                        <outlet property="sceneViewLeft" destination="UbT-LZ-qOT" id="oWK-aF-Nfy"/>
+                        <outlet property="sceneViewRight" destination="zb0-hr-6rz" id="RIt-dX-dro"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="34.632683658170919" y="24.800000000000001"/>
+        </scene>
+    </scenes>
+</document>
