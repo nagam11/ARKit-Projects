@@ -19,6 +19,9 @@ Project 04 - [ARCinema](https://github.com/nagam11/ARKit-Projects/tree/master/Pr
 
 <img src="./Project 04 - ARCinema/ARCinema.gif" width="200">
 
+Project 05 - [AR for VR Headset](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2004%20-%20ARCinema)
+
+Project 06 - [AR with Gesture Recognition](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2004%20-%20ARCinema)
 
 ## Other
 This repo is under MIT Licence. 
