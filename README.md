@@ -27,8 +27,6 @@ Project 06 - [AR with Gesture Recognition](https://github.com/nagam11/ARKit-Proj
 
 <img src="./Project 06 - AR with Gesture Recognition/gesture.gif" width="600">
 
-Project 07 - [Dynamical Model Loading using Poly API (Ongoing)]()
-
 ## Other
 This repo is under MIT Licence. 
 
