@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  PolyApp
 //
-//  Created by Marla Narazani on 01.12.17.
+//  Created by Marla Na on 01.12.17.
 //  Copyright © 2017 Marla Na. All rights reserved.
 //
 
@@ -13,7 +13,7 @@ import ModelIO
 import SceneKit.ModelIO
 
 // IMPORTANT: replace this with your project's API key.
-let POLY_API_KEY = "AIzaSyA3eh2QYmYvGZg-kfcPwZ64nVbb8zBtI14"
+let POLY_API_KEY = "POLY_API_TOKEN"
 let POLY_BASE_GET_ASSET_URL = "https://poly.googleapis.com/v1/assets"
 var POLY_ASSET_ID = "5vbJ5vildOq"
 

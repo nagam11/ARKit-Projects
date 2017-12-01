@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  PolyApp
 //
-//  Created by Marla Narazani on 01.12.17.
+//  Created by Marla Na on 01.12.17.
 //  Copyright © 2017 Marla Na. All rights reserved.
 //
 
