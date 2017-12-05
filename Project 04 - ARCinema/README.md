@@ -5,6 +5,7 @@ A video player with playback buttons for ARKit. [Video](https://streamable.com/8
 
 ## Features
 * ARKit with SpriteKit with image, text and video nodes.
+* **Click on playback nodes to change/pause/start videos**.
 
 ## TODOs
 * ~~Fix 'Next' playback button.~~
