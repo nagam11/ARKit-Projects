@@ -1,4 +1,4 @@
-# Dynamical Model Loading using Poly API (Swift)
+# Dynamic Model Loading using Poly API (Swift)
 
 Load models dynamically in ARKit using Poly API from Google.
 

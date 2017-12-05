@@ -29,7 +29,7 @@ Project 06 - [AR with Gesture Recognition](https://github.com/nagam11/ARKit-Proj
 
 Project 07 - [Dynamical Model Loading using Poly API (Ongoing)](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2007%20-%20Dynamical%20Model%20Loading%20using%20Poly%20API)
 
-<img src="./Project 07 - Dynamical Model Loading using Poly API/poly.gif" width="200">
+<img src="./Project 07 - Dynamic Model Loading using Poly API/poly.gif" width="200">
 
 ## Other
 This repo is under MIT Licence. 
