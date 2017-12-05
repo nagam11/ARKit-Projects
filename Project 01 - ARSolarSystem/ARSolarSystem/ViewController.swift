@@ -95,32 +95,43 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func createPlanets(scene: SCNScene){
-        //create the Earth
-        let earthNode = self.createObject(radius: 0.2, materialName: "earth.jpg", position: SCNVector3(0.5,-1.5,-2))
-        self.rotateObject(node: earthNode, duration: 3, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_rotation")
+        // Create the Earth-Moon-System and place it 10cm in front of the screen.
+        let earthMoonSystem = SCNNode()
+        earthMoonSystem.position = SCNVector3(0,0,-0.5)
         
-        // create the Moon
-        let moonNode = self.createObject(radius: 0.1, materialName: "moon.jpg", position: SCNVector3(0.5,-1.5,-2))
-        self.rotateObject(node: moonNode, duration: 3.5, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float.pi * 2.0), key: "moon_rotation")
+        // Create the Earth and add it to the system. In this system the moon orbits the Earth, thus Earth's position is 0.0.0 and rotates around its y axis.
+        let earthNode = self.createObject(radius: 0.03, materialName: "earth.jpg", position: SCNVector3(0,0,0))
+        earthMoonSystem.addChildNode(earthNode)
+        // Rotate the Earth around its y axis.
+        self.rotateObject(node: earthNode, duration: 2, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_own_rotation")
         
-        // Moon-Earth System
-        let moonRotationNode = self.createDoubleRotationObject(node: moonNode)
-        let earthRotationNode = self.createDoubleRotationObject(node: earthNode)
-        let moonEarthNode = self.createMiniSystems(firstNode: earthRotationNode, secondNode: moonRotationNode)
-        self.rotateObject(node: moonRotationNode, duration: 4, from:  SCNVector4Make(0, 2, 1, 0), to: SCNVector4Make(0, 2, 1, Float.pi * 2.0) , key: "moon_from_earth_rotation")
-        self.rotateObject(node: earthRotationNode, duration: 4, from: SCNVector4Make(0, 2, 1, 0), to: SCNVector4Make(0, 2, 1, Float.pi * 2.0), key: "earth_from_sun_rotation")
+        // Create the Moon-Rotation-System. In this sub-system of the Earth-Moon-System the moon has an offset of -10cm on the x axis.
+        let moonRotationNode = SCNNode()
+        let moonNode = self.createObject(radius: 0.01, materialName: "moon.jpg", position: SCNVector3(0,0,-0.1))
+        // Rotate the Moon around its y axis.
+        self.rotateObject(node: moonNode, duration: 54, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float.pi * 2.0), key: "moon_own_rotation")
+        moonRotationNode.addChildNode(moonNode)
+        // MRS is a sub-system of EMS.
+        earthMoonSystem.addChildNode(moonRotationNode)
         
-        //Create the Sun
-        let sunNode = self.createObject(radius: 0.5, materialName: "sun.jpg", position: SCNVector3(0.1,-1,-2))
-        self.rotateObject(node: sunNode, duration: 3, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "sun_rotation")
-        sunNode.addChildNode(earthRotationNode)
+        // In order to rotate the Moon around the Earth, we rotate the "whole" Moon-Rotation-System/Node around the y axis forever.
+        self.rotateObject(node: moonRotationNode, duration: 54, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "moon_earth_rotation")
         
-       solarNode.addChildNode(moonEarthNode)
-       solarNode.addChildNode(sunNode)
-       
-       scene.rootNode.addChildNode(solarNode)
-    }
+         // Create the Earth-Sun-System. It will contains the Earth-Moon-System and the Sun itself.
+        let earthSunSystem = SCNNode()
+        let sunNode = self.createObject(radius: 0.04, materialName: "sun.jpg", position: SCNVector3(0,0,0))
+        earthSunSystem.addChildNode(sunNode)
+        self.rotateObject(node: sunNode, duration: 50, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "sun_own_rotation")
+        
+        // In order to rotate the planet around the Sun, we rotate the "whole" Earth-Moon-System/Node around the y axis forever.
+        let earthRotationSystem = SCNNode()
+        earthRotationSystem.addChildNode(earthMoonSystem)
+        earthSunSystem.addChildNode(earthRotationSystem)
+        self.rotateObject(node: earthRotationSystem, duration: 730, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_sun_rotation")
     
+        scene.rootNode.addChildNode(earthSunSystem)
+    }
+    // Helper method to create astronomical objects.
     func createObject(radius: CGFloat, materialName: String, position: SCNVector3) -> SCNNode {
         let object = SCNSphere(radius: radius)
         let material = SCNMaterial()
@@ -130,17 +141,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.position = position
         return node
     }
-    func createMiniSystems(firstNode: SCNNode, secondNode: SCNNode) -> SCNNode {
-        let miniSystem = SCNNode()
-        miniSystem.addChildNode(firstNode)
-        miniSystem.addChildNode(secondNode)
-        return miniSystem
-    }
-    func createDoubleRotationObject(node: SCNNode) -> SCNNode {
-        let rotationNode = SCNNode()
-        rotationNode.addChildNode(node)
-        return rotationNode
-    }
+     // Helper method to rotate objects forever.
     func rotateObject(node: SCNNode, duration: CFTimeInterval, from: SCNVector4, to: SCNVector4, key: String){
         let animation = CABasicAnimation(keyPath: "rotation")
         animation.duration = duration
