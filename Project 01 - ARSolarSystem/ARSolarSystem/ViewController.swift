@@ -74,10 +74,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.solarSystem = SCNNode()
         // Create the Earth-Moon-System and place it 10cm in front of the screen.
         let earthMoonSystem = SCNNode()
-        earthMoonSystem.position = SCNVector3(0,0,-0.5)
+        earthMoonSystem.position = SCNVector3(0,0,-0.7)
         
         // Create the Earth and add it to the system. In this system the moon orbits the Earth, thus Earth's position is 0.0.0 and rotates around its y axis.
-        let earthNode = self.createObject(radius: 0.03, materialName: "earth.jpg", position: SCNVector3(0,0,0))
+        let earthNode = self.createObject(radius: 0.04, materialName: "earth.jpg", position: SCNVector3(0,0,0))
         earthMoonSystem.addChildNode(earthNode)
         // Rotate the Earth around its y axis.
         self.rotateObject(node: earthNode, duration: rotation_speeds[0], from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_own_rotation")
@@ -96,7 +96,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
          // Create the Earth-Sun-System. It will contains the Earth-Moon-System and the Sun itself.
         let earthSunSystem = SCNNode()
-        let sunNode = self.createObject(radius: 0.04, materialName: "sun.jpg", position: SCNVector3(0,0,0))
+        let sunNode = self.createObject(radius: 0.1, materialName: "sun.jpg", position: SCNVector3(0,0,0))
         earthSunSystem.addChildNode(sunNode)
         self.rotateObject(node: sunNode, duration: rotation_speeds[3], from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "sun_own_rotation")
         
