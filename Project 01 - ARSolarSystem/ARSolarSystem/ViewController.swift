@@ -13,7 +13,10 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
-    var solarNode = SCNNode()
+    var solarSystem: SCNNode?
+    let scene = SCNScene()
+    var rotation_speeds = [2, 54,  54, 50, 730] as [CFTimeInterval]
+    var fast = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +27,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
-        // Create a new scene
-        let scene = SCNScene()
-        
-        self.createPlanets(scene: scene)
+        self.createPlanets(scene: scene, rotation_speeds: self.rotation_speeds)
         
         // Tap Gesture Recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognize:)))
@@ -54,47 +54,24 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    // MARK: - ARSCNViewDelegate
-    
-    /*
-     // Override to create and configure nodes for anchors added to the view's session.
-     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-     let node = SCNNode()
-     
-     return node
-     }
-     */
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-        
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
-    }
-    
     @objc func handleTap(gestureRecognize :UITapGestureRecognizer) {
         let sceneView = gestureRecognize.view as! ARSCNView
         let touchLocation = gestureRecognize.location(in: sceneView)
         let hitResults = sceneView.hitTest(touchLocation, options: [:])
         if !hitResults.isEmpty {
-            //TODO:
+            self.solarSystem?.removeFromParentNode()
+            if(self.fast){
+                self.fast = false
+                createPlanets(scene: scene, rotation_speeds: self.rotation_speeds.map{ $0 * 27})
+            }else {
+                self.fast = true
+                createPlanets(scene: scene, rotation_speeds: self.rotation_speeds.map{ $0 / 27})
+            }
         }
     }
     
-    func createPlanets(scene: SCNScene){
+    func createPlanets(scene: SCNScene, rotation_speeds: [CFTimeInterval]){
+        self.solarSystem = SCNNode()
         // Create the Earth-Moon-System and place it 10cm in front of the screen.
         let earthMoonSystem = SCNNode()
         earthMoonSystem.position = SCNVector3(0,0,-0.5)
@@ -103,33 +80,38 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let earthNode = self.createObject(radius: 0.03, materialName: "earth.jpg", position: SCNVector3(0,0,0))
         earthMoonSystem.addChildNode(earthNode)
         // Rotate the Earth around its y axis.
-        self.rotateObject(node: earthNode, duration: 2, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_own_rotation")
+        self.rotateObject(node: earthNode, duration: rotation_speeds[0], from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_own_rotation")
         
         // Create the Moon-Rotation-System. In this sub-system of the Earth-Moon-System the moon has an offset of -10cm on the x axis.
         let moonRotationNode = SCNNode()
         let moonNode = self.createObject(radius: 0.01, materialName: "moon.jpg", position: SCNVector3(0,0,-0.1))
         // Rotate the Moon around its y axis.
-        self.rotateObject(node: moonNode, duration: 54, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float.pi * 2.0), key: "moon_own_rotation")
+        self.rotateObject(node: moonNode, duration: rotation_speeds[1], from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float.pi * 2.0), key: "moon_own_rotation")
         moonRotationNode.addChildNode(moonNode)
         // MRS is a sub-system of EMS.
         earthMoonSystem.addChildNode(moonRotationNode)
         
         // In order to rotate the Moon around the Earth, we rotate the "whole" Moon-Rotation-System/Node around the y axis forever.
-        self.rotateObject(node: moonRotationNode, duration: 54, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "moon_earth_rotation")
+        self.rotateObject(node: moonRotationNode, duration: rotation_speeds[2], from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "moon_earth_rotation")
         
          // Create the Earth-Sun-System. It will contains the Earth-Moon-System and the Sun itself.
         let earthSunSystem = SCNNode()
         let sunNode = self.createObject(radius: 0.04, materialName: "sun.jpg", position: SCNVector3(0,0,0))
         earthSunSystem.addChildNode(sunNode)
-        self.rotateObject(node: sunNode, duration: 50, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "sun_own_rotation")
+        self.rotateObject(node: sunNode, duration: rotation_speeds[3], from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "sun_own_rotation")
         
         // In order to rotate the planet around the Sun, we rotate the "whole" Earth-Moon-System/Node around the y axis forever.
         let earthRotationSystem = SCNNode()
         earthRotationSystem.addChildNode(earthMoonSystem)
         earthSunSystem.addChildNode(earthRotationSystem)
-        self.rotateObject(node: earthRotationSystem, duration: 730, from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_sun_rotation")
+        self.rotateObject(node: earthRotationSystem, duration: rotation_speeds[4], from: SCNVector4Make(0, 1, 0, 0), to: SCNVector4Make(0, 1, 0, Float(Double.pi) * 2.0), key: "earth_sun_rotation")
     
-        scene.rootNode.addChildNode(earthSunSystem)
+        guard let solarSystem = self.solarSystem else {
+            print("Solar System node does not exist !")
+            return
+        }
+        self.solarSystem?.addChildNode(earthSunSystem)
+        scene.rootNode.addChildNode(solarSystem)
     }
     // Helper method to create astronomical objects.
     func createObject(radius: CGFloat, materialName: String, position: SCNVector3) -> SCNNode {
