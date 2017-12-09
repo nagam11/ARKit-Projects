@@ -1,7 +1,5 @@
 # ARFlat Weather for VR/AR Headsets
-ARFlatWeather display for **AR/VR Headset(for example Cardboard)** and controlled using Speech Recognition.
-
-[Video](https://streamable.com/s7ywz)
+ARFlatWeather display for **AR/VR Headset(for example Cardboard)** and controlled using Speech Recognition. ([Video](https://streamable.com/s7ywz))
 
 <img src="vr.gif" width="600">
 

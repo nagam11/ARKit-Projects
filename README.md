@@ -6,7 +6,7 @@ This is an on-going collection of self-taught ARKit projects.
 ## List
 Project 01 - [SolarSystem](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2001%20-%20ARSolarSystem)
 
-<img src="./Project 01 - ARSolarSystem/slow.gif" width="300"><img src="./Project 01 - ARSolarSystem/fast.gif" width="300">
+<img src="./Project 01 - ARSolarSystem/slow.gif" height="300"><img src="./Project 01 - ARSolarSystem/fast.gif" height="300">
 
 Project 02 - [FlatWeather](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2002%20-%20ARFlatWeather)
 
@@ -27,7 +27,7 @@ Project 06 - [AR with Gesture Recognition](https://github.com/nagam11/ARKit-Proj
 
 <img src="./Project 06 - AR with Gesture Recognition/gesture.gif" width="600">
 
-Project 07 - [Dynamical Model Loading using Poly API (Ongoing)](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2007%20-%20Dynamical%20Model%20Loading%20using%20Poly%20API)
+Project 07 - [Dynamical Model Loading using Poly API (Ongoing)](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2007%20-%20Dynamic%20Model%20Loading%20using%20Poly%20API)
 
 <img src="./Project 07 - Dynamic Model Loading using Poly API/poly.gif" width="200">
 

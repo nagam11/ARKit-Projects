@@ -1,5 +1,5 @@
 # ARCinema
-A video player with playback buttons for ARKit. [Video](https://streamable.com/8chh6)
+A video player with playback buttons for ARKit. ([Video](https://streamable.com/8chh6))
 
 <img src="ARCinema.gif" width="200">
 

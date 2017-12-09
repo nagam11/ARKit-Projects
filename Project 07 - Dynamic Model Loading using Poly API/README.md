@@ -1,8 +1,6 @@
 # Dynamic Model Loading using Poly API (Swift)
 
-Load models dynamically in ARKit using **Poly API** from Google.
-
-[Video](https://streamable.com/obset)
+Load models dynamically in ARKit using **Poly API** from Google. ([Video](https://streamable.com/obset))
 
 <img src="poly.gif" width="200">
 
@@ -14,4 +12,4 @@ Load models dynamically in ARKit using **Poly API** from Google.
 ## Features
 * ARKit with SceneKit
 * PolyAPI Model Loading in Swift.
-* Click on the nodes to change models !
+* **Click on the nodes to change models !**
