@@ -29,9 +29,9 @@ Project 06 - [AR with Gesture Recognition](https://github.com/nagam11/ARKit-Proj
 
 Project 07 - [Dynamical Model Loading using Poly API](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2007%20-%20Dynamic%20Model%20Loading%20using%20Poly%20API)
 
-Project 08 - [ AR Cardboard Interface(Ongoing)]
-
 <img src="./Project 07 - Dynamic Model Loading using Poly API/poly.gif" width="200">
+
+Project 08 - [AR Cardboard Interface(Ongoing)](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2008%20-%20AR%20Cardboard%20Interface)
 
 ## Other
 This repo is under MIT Licence. 
