@@ -12,7 +12,7 @@ Project 02 - [FlatWeather](https://github.com/nagam11/ARKit-Projects/tree/master
 
 <img src="./Project 02 - ARFlatWeather/weather.gif" width="200">
 
-Project 03 - [CarsShowroom](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2003%20-%20CarsShowroom)
+Project 03 - [CarsShowroom(on hold)](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2003%20-%20CarsShowroom)
 TBA
 
 Project 04 - [ARCinema](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2004%20-%20ARCinema)
@@ -32,6 +32,8 @@ Project 07 - [Dynamical Model Loading using Poly API](https://github.com/nagam11
 <img src="./Project 07 - Dynamic Model Loading using Poly API/poly.gif" width="200">
 
 Project 08 - [AR Cardboard Interface(Ongoing)](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2008%20-%20AR%20Cardboard%20Interface)
+
+Project 09 - [AR Minecraft with VR Controller(Ongoing)]()
 
 ## Other
 This repo is under MIT Licence. 
