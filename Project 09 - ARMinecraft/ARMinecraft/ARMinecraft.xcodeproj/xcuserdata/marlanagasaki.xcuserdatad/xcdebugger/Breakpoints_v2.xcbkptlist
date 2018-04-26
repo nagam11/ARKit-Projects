@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ARMinecraft/DiscoverViewController.swift"
+            timestampString = "546413638.951267"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ARMinecraft/DiscoveryViewController.swift"
+            timestampString = "546413638.9513609"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "controllerDidConnect(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ARMinecraft/SampleViewController.swift"
+            timestampString = "546413638.9514329"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "controllerDidConnect(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ARMinecraft.SampleViewController.controllerDidConnect(Foundation.Notification) -&gt; ()"
+                  moduleName = "ARMinecraft"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marlanagasaki/Documents/ARMinecraft/ARMinecraft/SampleViewController.swift"
+                  timestampString = "546345392.054045"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
+                  offsetFromSymbolStart = "400">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (ARMinecraft.DDControllerButton, Swift.Bool) -&gt; () in ARMinecraft.SampleViewController.controllerDidConnect(Foundation.Notification) -&gt; ()"
+                  moduleName = "ARMinecraft"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marlanagasaki/Documents/ARMinecraft/ARMinecraft/SampleViewController.swift"
+                  timestampString = "546345392.0556231"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ARMinecraft/SampleViewController.swift"
+            timestampString = "546413638.951492"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "controllerDidConnect(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ARMinecraft.SampleViewController.controllerDidConnect(Foundation.Notification) -&gt; ()"
+                  moduleName = "ARMinecraft"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marlanagasaki/Documents/ARMinecraft/ARMinecraft/SampleViewController.swift"
+                  timestampString = "546345392.059576"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "225"
+                  endingLineNumber = "225"
+                  offsetFromSymbolStart = "604">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (ARMinecraft.DDControllerButton, Swift.Bool) -&gt; () in ARMinecraft.SampleViewController.controllerDidConnect(Foundation.Notification) -&gt; ()"
+                  moduleName = "ARMinecraft"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marlanagasaki/Documents/ARMinecraft/ARMinecraft/SampleViewController.swift"
+                  timestampString = "546345392.0611"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "226"
+                  endingLineNumber = "226"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
