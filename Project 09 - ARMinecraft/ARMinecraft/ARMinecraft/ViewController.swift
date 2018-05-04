@@ -40,16 +40,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewDidLoad()
         
         self.informationLabel.layer.masksToBounds = true
-        self.informationLabel.layer.borderWidth = 3
-        self.informationLabel.layer.borderColor = UIColor.black.cgColor
         self.informationLabel.layer.cornerRadius = 8
         self.informationLabel.text = "VR Controller NOT connected."
         
         self.moreInformationLabel.layer.masksToBounds = true
-        self.moreInformationLabel.layer.borderWidth = 3
-        self.moreInformationLabel.layer.borderColor = UIColor.black.cgColor
         self.moreInformationLabel.layer.cornerRadius = 8
-        self.moreInformationLabel.isHidden = true
+        self.moreInformationLabel.text = "Focus the centre of the screen when placing a box."
         
         discoverControllers()
         
@@ -147,9 +143,7 @@ extension ViewController {
     
     @objc func controllerDidConnect(_ notification: Notification) {
         print("VR Controller was connected successfully.")
-        self.informationLabel.isHidden = false
         self.informationLabel.text = "VR Controller SUCCESSFULLY connected."
-        self.moreInformationLabel.text = "Focus the centre of the screen when placing a box."
         configureNotifications()
         
         guard let controller = notification.object as? DDController else { return }
