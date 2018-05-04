@@ -15,12 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   // var viewController: DiscoverViewController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-       /*viewController = DiscoverViewController()
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.backgroundColor = UIColor.white
-        window?.rootViewController = viewController
-        window?.makeKeyAndVisible()*/
         return true
     }
 

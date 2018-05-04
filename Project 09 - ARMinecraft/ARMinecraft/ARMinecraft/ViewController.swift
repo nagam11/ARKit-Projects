@@ -14,36 +14,47 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var informationLabel: UILabel!
+    @IBOutlet weak var moreInformationLabel: UILabel!
     // Variable to track the last added node in the scene
     var lastNode: SCNNode?
-    // Variable to track the last touchpoint on touchpad
-    fileprivate var lastPoint = CGPoint.zero
-    var firstPoint = CGPoint.zero
-    var lastPoi = CGPoint.zero
-    // TODO: should be optional
-    var planeNode = SCNNode()
+    // Variable to track the latest touchpoint on touchpad
+    var lastTouchedPoint = CGPoint.zero
+    // Variables to track the beggining and ending of the swipes in order to detect right and left swipe
+    var firstPointOnSwipe = CGPoint.zero
+    var lastPointOnSwipe = CGPoint.zero
+    // Variable to track possible plane nodes
+    var planeNode: SCNNode?
     // Variable to track the latest added cube size.
-    var oldCubeSize = (0.1,0.1,0.1)
+    var oldCubeSize = (0.1, 0.1, 0.1)
     // Variable to iterate through different cube skins
     var materialsCode = 0
-    // 3rd variable : Variable to make sure the signals from the controller are only executed once. Note: DayDream SDK delivers for one click, 9-10 notifications at once.
-    // Variable to check two consecutive signals from the SDK. (false,false) : not pressed, (false, true) : pressed, (true, true) : not defined, (true, false) : not needed because we only execute once.
-    var checking0 = (false ,false, true)
-    var checking = (false ,false, true)
-    var checking2 = (false ,false, true)
+    /*
+     Variables to make sure the signals from the controller are only executed once. Note: DayDream SDK delivers for one click, 9-10 notifications at once. Mapping: (a,b,c) => a: last signal, b: newest signal, c: first signal of click
+     Example : (false,false,true) : not pressed, (false, true, true ) : pressed and first signal received, (false, true, false): pressed but not first signal received (won't be executed).
+     */
+    var checkingAppButton = (false ,false, true)
+    var checkingVolumeUpButton = (false ,false, true)
+    var checkingVolumeDownButton = (false ,false, true)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        discoverControllers()
-        
+        self.informationLabel.layer.masksToBounds = true
+        self.informationLabel.layer.borderWidth = 3
+        self.informationLabel.layer.borderColor = UIColor.black.cgColor
+        self.informationLabel.layer.cornerRadius = 8
         self.informationLabel.text = "VR Controller NOT connected."
+        
+        self.moreInformationLabel.layer.masksToBounds = true
+        self.moreInformationLabel.layer.borderWidth = 3
+        self.moreInformationLabel.layer.borderColor = UIColor.black.cgColor
+        self.moreInformationLabel.layer.cornerRadius = 8
+        self.moreInformationLabel.isHidden = true
+        
+        discoverControllers()
         
         // Set the view's delegate
         sceneView.delegate = self
-        
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
         
         // Create a new scene
         let scene = SCNScene()
@@ -51,7 +62,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the scene to the view
         sceneView.scene = scene
         
-        self.createCube(changeMaterial: false, multiplier: 0)
+        self.createCube(changeMaterial: false, nextMaterial: false,multiplier: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,16 +106,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
 extension ViewController {
     
-    // This method creates a cube object and adds it to the scene
-    func createCube(changeMaterial: Bool, multiplier: Double) {
+    // This method creates a cube object and adds it to the scene.
+    func createCube(changeMaterial: Bool, nextMaterial: Bool, multiplier: Double) {
         if changeMaterial {
-            self.materialsCode += 1
+            self.materialsCode += nextMaterial ? +1 : -1
+            // Avoid negative codes
+            if self.materialsCode < 0 {
+                self.materialsCode = 11
+            }
         }
         let box = SCNBox(width: CGFloat(self.oldCubeSize.0 + multiplier), height: CGFloat(self.oldCubeSize.1 + multiplier), length: CGFloat(self.oldCubeSize.2 + multiplier), chamferRadius: 0.0)
         let boxNode = SCNNode(geometry: box)
         boxNode.position = SCNVector3Make(0, 0, -0.6)
         let material = SCNMaterial()
-        material.diffuse.contents = UIImage(named: "\(self.materialsCode%6)")
+        material.diffuse.contents = UIImage(named: "\(self.materialsCode%14)")
         box.materials = [material]
         self.sceneView.scene.rootNode.addChildNode(boxNode)
         self.lastNode = boxNode
@@ -117,7 +132,6 @@ extension ViewController {
     
     func discoverControllers() {
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.controllerDidConnect(_:)), name: NSNotification.Name.DDControllerDidConnect, object: nil)
-        print("added observer for controller")
         do {
             try DDController.startDaydreamControllerDiscovery()
         } catch DDControllerError.bluetoothOff {
@@ -133,80 +147,67 @@ extension ViewController {
     
     @objc func controllerDidConnect(_ notification: Notification) {
         print("VR Controller was connected successfully.")
+        self.informationLabel.isHidden = false
         self.informationLabel.text = "VR Controller SUCCESSFULLY connected."
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-         //   self.informationLabel.text = "Focus on the centre of the screen when placing a box."
-       // })
+        self.moreInformationLabel.text = "Focus the centre of the screen when placing a box."
         configureNotifications()
         
         guard let controller = notification.object as? DDController else { return }
         
-        // TODO
-        let touchpadMaxPoint: CGFloat = 250.0
-        
+        // Detect right and left swipes
         controller.touchpad.pointChangedHandler = { (touchpad: DDControllerTouchpad, point: CGPoint) in
-            if !self.lastPoint.equalTo(CGPoint.zero) && self.firstPoint.equalTo(CGPoint.zero) {
-                self.firstPoint = point
+            if !self.lastTouchedPoint.equalTo(CGPoint.zero) && self.firstPointOnSwipe.equalTo(CGPoint.zero) {
+                self.firstPointOnSwipe = point
             }
-            print(self.lastPoi)
-            print(point)
-            if self.lastPoi.equalTo(CGPoint.zero) && point.equalTo(CGPoint.zero) {
-                self.lastPoi = self.lastPoint
-                // Swipe detection
-                print(self.firstPoint.x)
-                print(self.lastPoi.x)
-                if (self.firstPoint.x<127.0) && (self.lastPoi.x>180){
-                    //Swiped to the right
+            if self.lastPointOnSwipe.equalTo(CGPoint.zero) && point.equalTo(CGPoint.zero) {
+                self.lastPointOnSwipe = self.lastTouchedPoint
+                if (self.firstPointOnSwipe.x<150.0) && (self.lastPointOnSwipe.x>180){
+                    //Swipe to the right
                     print("User swiped to the right!")
                     self.lastNode?.removeFromParentNode()
-                    self.createCube(changeMaterial: true, multiplier: 0)
+                    self.createCube(changeMaterial: true, nextMaterial: true ,multiplier: 0)
+                }
+                if (self.firstPointOnSwipe.x>100.0) && (self.lastPointOnSwipe.x<75){
+                    //Swipe to the left
+                    print("User swiped to the left!")
+                    self.lastNode?.removeFromParentNode()
+                    self.createCube(changeMaterial: true, nextMaterial: false, multiplier: 0)
                 }
             }
+            // reset if the swipe finished
             if (point.equalTo(CGPoint.zero)){
-                self.lastPoi = CGPoint.zero
-                self.firstPoint = CGPoint.zero
+                self.lastPointOnSwipe = CGPoint.zero
+                self.firstPointOnSwipe = CGPoint.zero
             }
-            self.lastPoint = point
-           // print(self.lastPoint)
-            
+            self.lastTouchedPoint = point
         }
         
         controller.touchpad.button.valueChangedHandler = { (button: DDControllerButton, pressed: Bool) in
             if pressed {
-                //print("Touchpad was pressed")
+                print("Touchpad was pressed")
             }
         }
         
         controller.appButton.valueChangedHandler = { (button: DDControllerButton, pressed: Bool) in
-            self.checking0 = ( self.checking0.1 ,pressed ? true : false, self.checking0.2)
-            if self.checking0.1 {
-                //Only interact with the object, if it's in the field of view.
-              //  if let pointOfView = self.sceneView.pointOfView {
-                  //  let isVisible = self.sceneView.isNode(self.lastNode!, insideFrustumOf: pointOfView)
-                //    if isVisible {
-                        if self.checking0.2 {
-                            //TODO: Either delete of move
-                            self.lastNode?.removeFromParentNode()
-                            self.createCube(changeMaterial: false, multiplier: 0.0)
-                            //Use the middle of the screen for hitTest
-                            let point = CGPoint(x: self.sceneView.frame.size.width / 2, y: self.sceneView.frame.size.height / 2);
-                            let hitResults = self.sceneView.hitTest(point, types: .existingPlaneUsingExtent)
-                            
-                            if hitResults.count > 0, let firstHit = hitResults.first {
-                                self.lastNode?.position = SCNVector3Make(firstHit.worldTransform.columns.3.x, firstHit.worldTransform.columns.3.y + Float(self.oldCubeSize.1/2), firstHit.worldTransform.columns.3.z)
-                                //Remove the plane node after an object has been placed on it.
-                                //DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                                self.planeNode.removeFromParentNode()
-                                self.oldCubeSize = (0.1,0.1,0.1 )
-                                self.createCube(changeMaterial: false, multiplier: 0)
-                              //  })
-                            }
-                        }
-                //    }
-               // }
+            // Take care of multiple signals sent for one click
+            self.checkingAppButton = ( self.checkingAppButton.1 ,pressed ? true : false, self.checkingAppButton.2)
+            if self.checkingAppButton.1 {
+                if self.checkingAppButton.2 {
+                    self.lastNode?.removeFromParentNode()
+                    self.createCube(changeMaterial: false, nextMaterial: false, multiplier: 0.0)
+                    //Use the middle of the screen for hitTest
+                    let point = CGPoint(x: self.sceneView.frame.size.width / 2, y: self.sceneView.frame.size.height / 2);
+                    let hitResults = self.sceneView.hitTest(point, types: .existingPlaneUsingExtent)
+                    if hitResults.count > 0, let firstHit = hitResults.first {
+                        self.lastNode?.position = SCNVector3Make(firstHit.worldTransform.columns.3.x, firstHit.worldTransform.columns.3.y + Float(self.oldCubeSize.1/2), firstHit.worldTransform.columns.3.z)
+                        self.planeNode?.removeFromParentNode()
+                        self.oldCubeSize = (0.1,0.1,0.1)
+                        self.createCube(changeMaterial: false, nextMaterial: false, multiplier: 0)
+                    }
+                }
             }
-            else  if (!self.checking0.0 && !self.checking0.1) {
-                self.checking0.2 = true
+            else  if (!self.checkingAppButton.0 && !self.checkingAppButton.1) {
+                self.checkingAppButton.2 = true
             }
         }
         
@@ -217,44 +218,46 @@ extension ViewController {
         }
         
         controller.volumeUpButton.valueChangedHandler = { (button: DDControllerButton, pressed: Bool) in
-            self.checking = ( self.checking.1 ,pressed ? true : false, self.checking.2)
-            if self.checking.1 {
+            // Take care of multiple signals sent for one click
+            self.checkingVolumeUpButton = ( self.checkingVolumeUpButton.1 ,pressed ? true : false, self.checkingVolumeUpButton.2)
+            if self.checkingVolumeUpButton.1 {
                 //Only interact with the object, if it's in the field of view.
                 if let pointOfView = self.sceneView.pointOfView {
                     let isVisible = self.sceneView.isNode(self.lastNode!, insideFrustumOf: pointOfView)
                     if isVisible {
-                        if self.checking.2 {
+                        if self.checkingVolumeUpButton.2 {
                             self.lastNode?.removeFromParentNode()
-                            self.createCube(changeMaterial: false, multiplier: 0.1)
+                            self.createCube(changeMaterial: false, nextMaterial: false,multiplier: 0.1)
                             self.oldCubeSize = (self.oldCubeSize.0 + 0.1, self.oldCubeSize.1 + 0.1, self.oldCubeSize.2 + 0.1)
-                            self.checking.2 = false
+                            self.checkingVolumeUpButton.2 = false
                         }
                     }
                 }
             }
-            else  if (!self.checking.0 && !self.checking.1) {
-                self.checking.2 = true
+            else  if (!self.checkingVolumeUpButton.0 && !self.checkingVolumeUpButton.1) {
+                self.checkingVolumeUpButton.2 = true
             }
         }
         
         controller.volumeDownButton.valueChangedHandler = { (button: DDControllerButton, pressed: Bool) in
-            self.checking2 = ( self.checking2.1 ,pressed ? true : false, self.checking2.2)
-            if self.checking2.1 {
+            // Take care of multiple signals sent for one click
+            self.checkingVolumeDownButton = ( self.checkingVolumeDownButton.1 ,pressed ? true : false, self.checkingVolumeDownButton.2)
+            if self.checkingVolumeDownButton.1 {
                 //Only interact with the object, if it's in the field of view.
                 if let pointOfView = self.sceneView.pointOfView {
                     let isVisible = self.sceneView.isNode(self.lastNode!, insideFrustumOf: pointOfView)
                     if isVisible {
-                        if self.checking2.2 {
+                        if self.checkingVolumeDownButton.2 {
                             self.lastNode?.removeFromParentNode()
-                            self.createCube(changeMaterial: false, multiplier: (-0.1))
+                            self.createCube(changeMaterial: false, nextMaterial: false,multiplier: (-0.1))
                             self.oldCubeSize = (self.oldCubeSize.0 - 0.1, self.oldCubeSize.1 - 0.1, self.oldCubeSize.2 - 0.1)
-                            self.checking2.2 = false
+                            self.checkingVolumeDownButton.2 = false
                         }
                     }
                 }
             }
-            else if (!self.checking2.0 && !self.checking2.1) {
-                self.checking2.2 = true
+            else if (!self.checkingVolumeDownButton.0 && !self.checkingVolumeDownButton.1) {
+                self.checkingVolumeDownButton.2 = true
             }
         }
     }
