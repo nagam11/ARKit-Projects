@@ -35,6 +35,8 @@ Project 08 - [AR Cardboard Interface(Ongoing)](https://github.com/nagam11/ARKit-
 
 Project 09 - [AR Minecraft with VR Controller](https://github.com/nagam11/ARKit-Projects/tree/master/Project%2009%20-%20ARMinecraft)
 
+<img src="./Project 09 - ARMinecraft/ARMinecraft.gif" height="350"> <img src="./Project 09 - ARMinecraft/Description.png" height="350"> 
+
 ## Other
 This repo is under MIT Licence. 
 
