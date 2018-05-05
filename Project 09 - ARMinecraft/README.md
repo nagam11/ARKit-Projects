@@ -6,3 +6,5 @@ This project is a Minecraft-like game where you can create blocks and build your
 
 <img src="IMG_1.PNG" height="400"> <img src="IMG_2.PNG" height="400">
 
+## Note
+If you cannot directly connect to the DayDream VR Controller, turn off and on Bluetooth on your device.
